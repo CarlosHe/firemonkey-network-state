@@ -1,21 +1,21 @@
-{****************************************************}
-{                                                    }
-{ firemonkey-network-state                           }
-{                                                    }
-{ Copyright (C) 2018 Code Partners Pty Ltd           }
-{                                                    }
-{ http://www.code-partners.com                       }
-{                                                    }
-{****************************************************}
-{                                                    }
-{ This Source Code Form is subject to the terms of   }
-{ the Mozilla Public License, v. 2.0. If a copy of   }
-{ the MPL was not distributed with this file, You    }
-{ can obtain one at                                  }
-{                                                    }
-{ http://mozilla.org/MPL/2.0/                        }
-{                                                    }
-{****************************************************}
+{ **************************************************** }
+{ }
+{ firemonkey-network-state }
+{ }
+{ Copyright (C) 2018 Code Partners Pty Ltd }
+{ }
+{ http://www.code-partners.com }
+{ }
+{ **************************************************** }
+{ }
+{ This Source Code Form is subject to the terms of }
+{ the Mozilla Public License, v. 2.0. If a copy of }
+{ the MPL was not distributed with this file, You }
+{ can obtain one at }
+{ }
+{ http://mozilla.org/MPL/2.0/ }
+{ }
+{ **************************************************** }
 unit UNetworkState;
 
 interface
@@ -26,10 +26,10 @@ uses
 type
   TNetworkStateValue = (nsUnknown = 0, nsConnectedWifi = 1, nsConnectedMobileData = 2, nsDisconnected = 3);
 
-  TNetworkStateChangeEvent = procedure (Sender: TObject;
+  TNetworkStateChangeEvent = procedure(Sender: TObject;
     Value: TNetworkStateValue) of object;
 
-  TNetworkState = class (TComponent)
+  TNetworkState = class(TComponent)
   private
     FCurrentValue: TNetworkStateValue;
     FOnChange: TNetworkStateChangeEvent;
@@ -42,7 +42,7 @@ type
   public
     class function Factory(
       AOwner: TComponent; AOnChange: TNetworkStateChangeEvent
-    ): TNetworkState;
+      ): TNetworkState;
 
     property CurrentValue: TNetworkStateValue read FCurrentValue;
   end;
@@ -50,11 +50,13 @@ type
 implementation
 
 uses
-  {$IF DEFINED(Android)}
-    UNetworkState.Android;
-  {$ELSEIF DEFINED(iOS)}
-    UNetworkState.iOS;
-  {$IFEND}
+{$IF DEFINED(Android)}
+  UNetworkState.Android;
+{$ELSEIF DEFINED(iOS)}
+  UNetworkState.iOS;
+{$ELSEIF DEFINED(MSWINDOWS)}
+  UNetworkState.Windows;
+{$IFEND}
 
 { TNetworkState }
 
@@ -70,15 +72,17 @@ end;
 class function TNetworkState.Factory(AOwner: TComponent;
   AOnChange: TNetworkStateChangeEvent): TNetworkState;
 begin
-  {$IF DEFINED(Android)}
-    Result := TAndroidNetworkState.Create(AOwner, AOnChange);
-  {$ELSEIF DEFINED(iOS)}
-    {$IF DEFINED(CPUARM)} // real device
-      Result := TiOSNetworkState.Create(AOwner, AOnChange);
-    {$ELSEIF DEFINED(CPUX86)} // simulator
-      Result := TNetworkState.Create(AOwner, AOnChange);
-    {$ENDIF}
-  {$ENDIF}
+{$IF DEFINED(Android)}
+  Result := TAndroidNetworkState.Create(AOwner, AOnChange);
+{$ELSEIF DEFINED(MSWINDOWS)}
+  Result := TWindowsNetworkState.Create(AOwner, AOnChange);
+{$ELSEIF DEFINED(iOS)}
+{$IF DEFINED(CPUARM)} // real device
+  Result := TiOSNetworkState.Create(AOwner, AOnChange);
+{$ELSEIF DEFINED(CPUX86)} // simulator
+  Result := TNetworkState.Create(AOwner, AOnChange);
+{$ENDIF}
+{$ENDIF}
 end;
 
 function TNetworkState.GetCurrentValue: TNetworkStateValue;
@@ -92,7 +96,8 @@ var
 begin
   NewValue := self.GetCurrentValue;
 
-  if (self.FCurrentValue <> NewValue) then begin
+  if (self.FCurrentValue <> NewValue) then
+  begin
     self.FCurrentValue := NewValue;
 
     if Assigned(self.FOnChange) then

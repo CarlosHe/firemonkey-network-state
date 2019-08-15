@@ -10,11 +10,15 @@ uses
   UNetworkState.Android in '..\Source\Android\UNetworkState.Android.pas',
   CaptiveNetwork in '..\Source\iOS\CaptiveNetwork.pas',
   SCNetworkReachability in '..\Source\iOS\SCNetworkReachability.pas',
-  UNetworkState.iOS in '..\Source\iOS\UNetworkState.iOS.pas';
+  UNetworkState.iOS in '..\Source\iOS\UNetworkState.iOS.pas',
+  UNetworkState.Windows in '..\Source\Windows\UNetworkState.Windows.pas',
+  UWindowsNetworkStateService in '..\Source\Windows\Service\UWindowsNetworkStateService.pas',
+  UWindowsNetworkStateMessage in '..\Source\Windows\Message\UWindowsNetworkStateMessage.pas';
 
 {$R *.res}
 
 begin
+  ReportMemoryLeaksOnShutdown:=True;
   Application.Initialize;
   Application.CreateForm(TFormSample, FormSample);
   Application.Run;

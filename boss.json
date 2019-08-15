@@ -1,0 +1,11 @@
+{
+	"name": "firemonkey-network-state",
+	"description": "",
+	"version": "1.0.0",
+	"homepage": "",
+	"mainsrc": "Source/",
+	"projects": [
+		"FiremonkeyNetworkState.dproj"
+	],
+	"dependencies": {}
+}

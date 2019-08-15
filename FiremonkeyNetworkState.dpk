@@ -1,0 +1,46 @@
+package FiremonkeyNetworkState;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  fmx;
+
+contains
+  UNetworkState in 'Source\UNetworkState.pas',
+  UNetworkState.Windows in 'Source\Windows\UNetworkState.Windows.pas',
+  UWindowsNetworkStateMessage in 'Source\Windows\Message\UWindowsNetworkStateMessage.pas',
+  UWindowsNetworkStateService in 'Source\Windows\Service\UWindowsNetworkStateService.pas',
+  CaptiveNetwork in 'Source\iOS\CaptiveNetwork.pas',
+  SCNetworkReachability in 'Source\iOS\SCNetworkReachability.pas',
+  UNetworkState.iOS in 'Source\iOS\UNetworkState.iOS.pas',
+  UNetworkState.Android in 'Source\Android\UNetworkState.Android.pas',
+  UBroadcastReceiver in 'Source\Android\BroadcastReceiver\UBroadcastReceiver.pas',
+  UNetworkStateBroadcastReceiver in 'Source\Android\BroadcastReceiver\UNetworkStateBroadcastReceiver.pas';
+
+end.
