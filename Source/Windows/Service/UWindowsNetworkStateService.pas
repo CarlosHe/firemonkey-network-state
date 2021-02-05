@@ -34,7 +34,11 @@ implementation
 constructor TWindowsNetworkStateService.Create;
 begin
   FThreadNetworkStateService := TThread.CreateAnonymousThread(DoNetworkStateService);
+  {$IFDEF MSWINDOWS}
+  {$WARN SYMBOL_PLATFORM OFF}
   FThreadNetworkStateService.Priority := TThreadPriority.tpLowest;
+  {$WARN SYMBOL_PLATFORM ON}
+  {$ENDIF}
   FThreadNetworkStateService.FreeOnTerminate := False;
 
   FConnected := True;

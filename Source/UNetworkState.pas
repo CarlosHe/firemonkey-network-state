@@ -55,6 +55,7 @@ uses
 {$ELSEIF DEFINED(iOS)}
   UNetworkState.iOS;
 {$ELSEIF DEFINED(MSWINDOWS)}
+  UWindowsNetworkStateService,
   UNetworkState.Windows;
 {$IFEND}
 
